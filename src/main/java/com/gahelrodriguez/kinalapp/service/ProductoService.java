@@ -1,6 +1,7 @@
 package com.gahelrodriguez.kinalapp.service;
 
 import com.gahelrodriguez.kinalapp.entity.Producto;
+import com.gahelrodriguez.kinalapp.repository.DetalleVentaRepository;
 import com.gahelrodriguez.kinalapp.repository.ProductoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,36 +14,30 @@ import java.util.Optional;
 @Transactional
 public class ProductoService implements IProductoService {
 
-    private final ProductoRepository productoRepository;
+    private final ProductoRepository      productoRepository;
+    private final DetalleVentaRepository  detalleVentaRepository;
 
-    public ProductoService(ProductoRepository productoRepository) {
-        this.productoRepository = productoRepository;
+    public ProductoService(ProductoRepository productoRepository,
+                           DetalleVentaRepository detalleVentaRepository) {
+        this.productoRepository     = productoRepository;
+        this.detalleVentaRepository = detalleVentaRepository;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Producto> listarTodos() {
-        return productoRepository.findAll();
-    }
+    public List<Producto> listarTodos() { return productoRepository.findAll(); }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Producto> listarActivos() {
-        // CORREGIDO: 1L en lugar de 1 (Long, no int)
-        return productoRepository.findByEstado(1L);
-    }
+    public List<Producto> listarActivos() { return productoRepository.findByEstado(1L); }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Producto> listarInactivos() {
-        // CORREGIDO: 0L en lugar de 0 (Long, no int)
-        return productoRepository.findByEstado(0L);
-    }
+    public List<Producto> listarInactivos() { return productoRepository.findByEstado(0L); }
 
     @Override
     public Producto guardar(Producto producto) {
         validarProducto(producto);
-        // CORREGIDO: comparacion con Long usando equals() o null-safe check
         if (producto.getEstado() == null || producto.getEstado() == 0L)
             producto.setEstado(1L);
         return productoRepository.save(producto);
@@ -50,43 +45,50 @@ public class ProductoService implements IProductoService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Producto> buscarPorCodigo(Long codigoProducto) {
-        return productoRepository.findById(codigoProducto);
+    public Optional<Producto> buscarPorCodigo(Long codigo) {
+        return productoRepository.findById(codigo);
     }
 
     @Override
-    public Producto actualizar(Long codigoProducto, Producto producto) {
-        if (!productoRepository.existsById(codigoProducto))
-            throw new RuntimeException("Producto no encontrado con codigo " + codigoProducto);
-        producto.setCodigoProducto(codigoProducto);
+    public Producto actualizar(Long codigo, Producto producto) {
+        if (!productoRepository.existsById(codigo))
+            throw new RuntimeException("Producto no encontrado con codigo " + codigo);
+        producto.setCodigoProducto(codigo);
         validarProducto(producto);
         return productoRepository.save(producto);
     }
 
     @Override
-    public void eliminar(Long codigoProducto) {
-        if (!productoRepository.existsById(codigoProducto))
-            throw new RuntimeException("Producto no encontrado con codigo " + codigoProducto);
-        productoRepository.deleteById(codigoProducto);
+    public void eliminar(Long codigo) {
+        Producto producto = productoRepository.findById(codigo)
+                .orElseThrow(() -> new RuntimeException(
+                        "Producto no encontrado con codigo " + codigo));
+
+        boolean tieneDetalles = !detalleVentaRepository
+                .findByProductoCodigoProducto(codigo).isEmpty();
+
+        if (tieneDetalles) {
+            producto.setEstado(0L);
+            productoRepository.save(producto);
+        } else {
+            productoRepository.deleteById(codigo);
+        }
     }
 
     @Override
     @Transactional(readOnly = true)
-    public boolean existeCodigo(Long codigoProducto) {
-        return productoRepository.existsById(codigoProducto);
+    public boolean existeCodigo(Long codigo) {
+        return productoRepository.existsById(codigo);
     }
 
     private void validarProducto(Producto producto) {
         if (producto.getNombreProducto() == null || producto.getNombreProducto().trim().isEmpty())
             throw new IllegalArgumentException("El nombre del producto es un campo obligatorio");
-
         if (producto.getPrecio() == null)
             throw new IllegalArgumentException("El precio es un campo obligatorio");
-
         if (producto.getPrecio().compareTo(BigDecimal.ZERO) < 0)
-            throw new IllegalArgumentException("El precio no puede ser un valor negativo");
-
+            throw new IllegalArgumentException("El precio no puede ser negativo");
         if (producto.getStock() == null || producto.getStock() < 0L)
-            throw new IllegalArgumentException("El stock no puede ser un valor negativo");
+            throw new IllegalArgumentException("El stock no puede ser negativo");
     }
 }

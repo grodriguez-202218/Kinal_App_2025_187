@@ -1,7 +1,3 @@
-/* =========================================
-   KINAL APP - ESTILO RETRO DAY SUPER SALE
-   ========================================= */
-
 @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap');
 
 :root {
@@ -32,9 +28,7 @@ body {
     color: var(--blue-dark);
 }
 
-/* ========================================
-   NAVBAR RETRO NARANJA
-   ======================================== */
+
 .navbar {
     background: var(--orange) !important;
     border-bottom: 4px solid var(--border-color);
@@ -105,9 +99,7 @@ body {
     margin-right: 15px;
 }
 
-/* ========================================
-   HERO RETRO ARCOIRIS
-   ======================================== */
+
 .hero-section {
     background: var(--cream);
     padding: 0;
@@ -343,9 +335,6 @@ body {
     margin-bottom: 0;
 }
 
-/* ========================================
-   CARDS RETRO
-   ======================================== */
 .card {
     border: 4px solid #2D1B4E;
     border-radius: 0;
@@ -416,9 +405,7 @@ body {
     font-weight: 600;
 }
 
-/* ========================================
-   BOTONES RETRO
-   ======================================== */
+
 .btn {
     border-radius: 0;
     font-family: 'Fredoka One', cursive;
@@ -502,9 +489,7 @@ body {
     box-shadow: 3px 3px 0 #2D1B4E;
 }
 
-/* ========================================
-   TABLAS RETRO
-   ======================================== */
+
 .table-container {
     background: #fff;
     border: 4px solid #2D1B4E;
@@ -544,9 +529,7 @@ body {
     border-bottom: none;
 }
 
-/* ========================================
-   FORMULARIOS RETRO
-   ======================================== */
+
 .form-control, .form-select {
     border-radius: 0;
     border: 3px solid #2D1B4E;
@@ -573,9 +556,7 @@ body {
     margin-bottom: 8px;
 }
 
-/* ========================================
-   PAGE HEADER RETRO
-   ======================================== */
+
 .page-header {
     background: #fff;
     border: 4px solid #2D1B4E;
@@ -592,9 +573,7 @@ body {
     letter-spacing: 2px;
 }
 
-/* ========================================
-   BADGES RETRO
-   ======================================== */
+
 .badge {
     padding: 8px 15px;
     border-radius: 0;
@@ -620,14 +599,17 @@ body {
     color: #2D1B4E;
 }
 
+.badge.bg-primary {
+    background: #4361EE !important;
+    color: #fff;
+}
+
 .badge.bg-warning {
     background: #FFEA00 !important;
     color: #2D1B4E;
 }
 
-/* ========================================
-   FOOTER RETRO
-   ======================================== */
+
 footer {
     background: #2D1B4E;
     color: #fff;
@@ -652,9 +634,7 @@ footer a:hover {
     color: #FF6B9D;
 }
 
-/* ========================================
-   CONTAINER Y UTILIDADES
-   ======================================== */
+
 .container {
     padding: 20px;
 }
@@ -663,9 +643,8 @@ main {
     padding: 30px 0;
 }
 
-/* Checkerboard pattern para fondos */
 .checker-bg {
-    background-image: 
+    background-image:
         linear-gradient(45deg, #FF6B9D 25%, transparent 25%),
         linear-gradient(-45deg, #FF6B9D 25%, transparent 25%),
         linear-gradient(45deg, transparent 75%, #FF6B9D 75%),
@@ -675,14 +654,12 @@ main {
     background-color: #FFB5BA;
 }
 
-/* Dotted pattern */
 .dots-bg {
     background-image: radial-gradient(#FF6B9D 2px, transparent 2px);
     background-size: 20px 20px;
     background-color: #FFE5D9;
 }
 
-/* Stripes pattern */
 .stripes-bg {
     background: repeating-linear-gradient(
         45deg,
@@ -693,28 +670,26 @@ main {
     );
 }
 
-/* ========================================
-   RESPONSIVE
-   ======================================== */
+
 @media (max-width: 768px) {
     .hero-section h1 {
         font-size: 2.5rem;
-        text-shadow: 
+        text-shadow:
             2px 2px 0 #FF6B9D,
             4px 4px 0 #C77DFF;
     }
-    
+
     .card-icon {
         width: 70px;
         height: 70px;
         font-size: 1.8rem;
     }
-    
+
     .nav-link {
         border-right: none;
         border-bottom: 2px solid #2D1B4E;
     }
-    
+
     .navbar-brand {
         border-right: none;
     }

@@ -8,4 +8,7 @@ import java.util.List;
 public interface DetalleVentaRepository extends JpaRepository<DetalleVenta, Long> {
 
     List<DetalleVenta> findByVentaCodigoVenta(Long codigoVenta);
+
+    // Necesario para la eliminación inteligente de Producto
+    List<DetalleVenta> findByProductoCodigoProducto(Long codigoProducto);
 }

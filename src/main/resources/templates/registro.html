@@ -18,7 +18,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            overflow-y: auto;
             position: relative;
         }
         body::before {
@@ -31,7 +31,7 @@
         }
         .registro-wrapper {
             position: relative; z-index: 1;
-            width: 100%; max-width: 500px;
+            width: 100%; max-width: 540px;
             padding: 20px;
         }
         .registro-brand { text-align: center; margin-bottom: 25px; }
@@ -57,8 +57,6 @@
             font-weight: 700; color: var(--blue-dark);
             margin: 4px 0 0;
         }
-
-        /* Card */
         .registro-card {
             background: white;
             border: 4px solid var(--border-color);
@@ -90,8 +88,6 @@
             margin: 0;
         }
         .registro-card-body { padding: 30px; }
-
-        /* Alerta de error */
         .alert-retro {
             background: #FF6B6B; color: white;
             border: 3px solid var(--border-color); border-radius: 0;
@@ -100,9 +96,9 @@
             padding: 12px 18px; margin-bottom: 20px;
         }
 
-        /* Selector de rol */
+        /* ── Selector de rol (3 opciones) ── */
         .rol-selector {
-            display: flex; gap: 12px; margin-top: 6px;
+            display: flex; gap: 10px; margin-top: 6px;
         }
         .rol-option {
             flex: 1; position: relative;
@@ -113,42 +109,45 @@
         .rol-option label {
             display: flex; flex-direction: column;
             align-items: center; justify-content: center;
-            padding: 16px 10px;
+            padding: 14px 8px;
             border: 3px solid var(--border-color);
             cursor: pointer;
             font-family: 'Fredoka One', cursive;
-            font-size: 0.95rem; text-align: center;
+            font-size: 0.9rem; text-align: center;
             transition: all 0.2s ease;
             background: white;
             box-shadow: 3px 3px 0 var(--border-color);
         }
-        .rol-option label i {
-            font-size: 1.8rem; margin-bottom: 6px;
-        }
+        .rol-option label i { font-size: 1.6rem; margin-bottom: 5px; }
         .rol-option label .rol-desc {
             font-family: 'Nunito', sans-serif;
-            font-size: 0.72rem; font-weight: 600;
-            color: #666; margin-top: 4px;
-            line-height: 1.3;
+            font-size: 0.68rem; font-weight: 600;
+            color: #666; margin-top: 4px; line-height: 1.3;
         }
         /* USER */
         .rol-option.user label { color: var(--blue-dark); }
         .rol-option.user input:checked + label {
-            background: var(--blue);
-            color: white; border-color: var(--border-color);
-            transform: translate(-2px, -2px);
+            background: var(--blue); color: white;
+            transform: translate(-2px,-2px);
             box-shadow: 5px 5px 0 var(--border-color);
         }
         .rol-option.user input:checked + label .rol-desc { color: rgba(255,255,255,0.85); }
         /* VENDEDOR */
         .rol-option.vendedor label { color: var(--orange); }
         .rol-option.vendedor input:checked + label {
-            background: var(--orange);
-            color: white; border-color: var(--border-color);
-            transform: translate(-2px, -2px);
+            background: var(--orange); color: white;
+            transform: translate(-2px,-2px);
             box-shadow: 5px 5px 0 var(--border-color);
         }
         .rol-option.vendedor input:checked + label .rol-desc { color: rgba(255,255,255,0.85); }
+        /* ADMIN */
+        .rol-option.admin label { color: var(--purple); }
+        .rol-option.admin input:checked + label {
+            background: var(--purple); color: white;
+            transform: translate(-2px,-2px);
+            box-shadow: 5px 5px 0 var(--border-color);
+        }
+        .rol-option.admin input:checked + label .rol-desc { color: rgba(255,255,255,0.85); }
 
         /* Botones */
         .btn-crear {
@@ -162,7 +161,7 @@
         }
         .btn-crear:hover {
             background: var(--blue-dark);
-            transform: translate(-3px, -3px);
+            transform: translate(-3px,-3px);
             box-shadow: 8px 8px 0 var(--border-color); color: white;
         }
         .btn-volver {
@@ -177,12 +176,10 @@
         }
         .btn-volver:hover {
             background: var(--cream);
-            transform: translate(-2px, -2px);
+            transform: translate(-2px,-2px);
             box-shadow: 6px 6px 0 var(--border-color);
             color: var(--blue-dark);
         }
-
-        /* Íconos flotantes */
         .deco-icon {
             position: fixed; font-size: 2.2rem;
             opacity: 0.15; animation: float 4s ease-in-out infinite;
@@ -229,7 +226,6 @@
         </div>
         <div class="registro-card-body">
 
-            <!-- Error -->
             <div class="alert-retro" th:if="${error}">
                 <i class="bi bi-exclamation-triangle-fill me-2"></i>
                 <span th:text="${error}">Error</span>
@@ -237,7 +233,6 @@
 
             <form th:action="@{/registro}" method="post">
 
-                <!-- Username -->
                 <div class="mb-3">
                     <label for="username" class="form-label">
                         <i class="bi bi-person-fill me-1"></i>Username
@@ -247,7 +242,6 @@
                            required autofocus>
                 </div>
 
-                <!-- Email -->
                 <div class="mb-3">
                     <label for="email" class="form-label">
                         <i class="bi bi-envelope-fill me-1"></i>Email
@@ -256,7 +250,6 @@
                            name="email" placeholder="tu@email.com" required>
                 </div>
 
-                <!-- Password -->
                 <div class="mb-3">
                     <label for="password" class="form-label">
                         <i class="bi bi-key-fill me-1"></i>Contraseña
@@ -266,7 +259,7 @@
                            minlength="6" required>
                 </div>
 
-                <!-- Selector de Rol -->
+                <!-- Selector de Rol: USER · VENDEDOR · ADMIN -->
                 <div class="mb-4">
                     <label class="form-label">
                         <i class="bi bi-shield-fill me-1"></i>¿Cuál es tu rol?
@@ -274,26 +267,29 @@
                     <div class="rol-selector">
 
                         <div class="rol-option user">
-                            <input type="radio" id="rolUser" name="rol"
-                                   value="USER" checked>
+                            <input type="radio" id="rolUser" name="rol" value="USER" checked>
                             <label for="rolUser">
                                 <i class="bi bi-person-circle"></i>
                                 Usuario
-                                <span class="rol-desc">
-                                    Acceso a clientes y productos
-                                </span>
+                                <span class="rol-desc">Clientes y productos</span>
                             </label>
                         </div>
 
                         <div class="rol-option vendedor">
-                            <input type="radio" id="rolVendedor" name="rol"
-                                   value="VENDEDOR">
+                            <input type="radio" id="rolVendedor" name="rol" value="VENDEDOR">
                             <label for="rolVendedor">
                                 <i class="bi bi-bag-fill"></i>
                                 Vendedor
-                                <span class="rol-desc">
-                                    Acceso a ventas y detalles
-                                </span>
+                                <span class="rol-desc">Ventas y detalles</span>
+                            </label>
+                        </div>
+
+                        <div class="rol-option admin">
+                            <input type="radio" id="rolAdmin" name="rol" value="ADMIN">
+                            <label for="rolAdmin">
+                                <i class="bi bi-shield-lock-fill"></i>
+                                Admin
+                                <span class="rol-desc">Acceso completo</span>
                             </label>
                         </div>
 
@@ -308,7 +304,6 @@
             <a th:href="@{/login}" class="btn-volver">
                 <i class="bi bi-arrow-left me-2"></i>Ya tengo cuenta, iniciar sesión
             </a>
-
         </div>
     </div>
 

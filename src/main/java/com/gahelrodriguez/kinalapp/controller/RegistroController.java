@@ -9,25 +9,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Controller
 public class RegistroController {
 
+    // Roles permitidos en el registro público
+    private static final List<String> ROLES_VALIDOS = List.of("USER", "VENDEDOR", "ADMIN");
+
     private final UsuarioRepository usuarioRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder   passwordEncoder;
 
     public RegistroController(UsuarioRepository usuarioRepository,
                               PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
-        this.passwordEncoder = passwordEncoder;
+        this.passwordEncoder   = passwordEncoder;
     }
 
-    // Muestra el formulario de registro
     @GetMapping("/registro")
     public String mostrarRegistro() {
         return "registro";
     }
 
-    // Procesa el formulario de registro
     @PostMapping("/registro")
     public String procesarRegistro(
             @RequestParam String username,
@@ -36,27 +39,35 @@ public class RegistroController {
             @RequestParam String rol,
             Model model) {
 
-        // Verificar si el username ya existe
+        // Validar que el username no exista
         if (usuarioRepository.findByUsername(username).isPresent()) {
-            model.addAttribute("error", "El username '" + username + "' ya está en uso.");
+            model.addAttribute("error",
+                    "El username '" + username + "' ya está en uso.");
             return "registro";
         }
 
-        if (!rol.equals("USER") && !rol.equals("VENDEDOR")) {
-            model.addAttribute("error", "Rol no válido.");
+        // Validar rol
+        if (!ROLES_VALIDOS.contains(rol)) {
+            model.addAttribute("error", "Rol no válido. Elige USER, VENDEDOR o ADMIN.");
             return "registro";
         }
 
+        // Validar longitud mínima de contraseña
+        if (password == null || password.trim().length() < 6) {
+            model.addAttribute("error", "La contraseña debe tener al menos 6 caracteres.");
+            return "registro";
+        }
+
+        // Crear y guardar el usuario con contraseña encriptada (BCrypt)
         Usuario nuevo = new Usuario();
-        nuevo.setUsername(username);
-        nuevo.setPassword(passwordEncoder.encode(password));
-        nuevo.setEmail(email);
+        nuevo.setUsername(username.trim());
+        nuevo.setPassword(passwordEncoder.encode(password)); // ← BCrypt automático
+        nuevo.setEmail(email.trim());
         nuevo.setRol(rol);
         nuevo.setEstado(1L); // activo por defecto
 
         usuarioRepository.save(nuevo);
 
-        // Redirige al login con parámetro de éxito
         return "redirect:/login?registrado";
     }
 }

@@ -1,122 +1,126 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/layout}">
 <head>
     <title>Kinal App - Retro Day</title>
 </head>
 <body>
-    <div layout:fragment="content">
-        <!-- Hero + Cards Section - Lado a Lado -->
-        <div class="hero-section">
-            <div class="container-fluid hero-content">
-                <div class="row align-items-center">
-                    <!-- Left Side - Arcoíris Amarillo (Hero) -->
-                    <div class="col-lg-5 mb-4 mb-lg-0">
-                        <div class="hero-left mx-auto">
-                            <h1 class="hero-title-blue">KINAL DAY</h1>
-                            <h2 class="hero-title-orange">Super App</h2>
-                            <p class="hero-text">
-                                Sistema de gestión completo para tu negocio.
-                                Administra clientes, productos, ventas y usuarios
-                                con un estilo retro único.
-                            </p>
-                            <a th:href="@{/clientes/vista}" class="btn hero-btn">
-                                <i class="bi bi-rocket-takeoff me-2"></i>¡Empezar!
-                            </a>
-                            <div class="hero-social mt-4">
-                                <a href="#"><i class="bi bi-facebook"></i></a>
-                                <a href="#"><i class="bi bi-instagram"></i></a>
-                                <a href="#"><i class="bi bi-twitter"></i></a>
-                            </div>
+<div layout:fragment="content">
+    <div class="hero-section">
+        <div class="container-fluid hero-content">
+            <div class="row align-items-center">
+
+                <div class="col-lg-5 mb-4 mb-lg-0">
+                    <div class="hero-left mx-auto">
+                        <h1 class="hero-title-blue">KINAL DAY</h1>
+                        <h2 class="hero-title-orange">Super App</h2>
+                        <p class="hero-text">
+                            Sistema de gestión completo para tu negocio.
+                            Administra clientes, productos, ventas y usuarios
+                            con un estilo retro único.
+                        </p>
+                        <a th:href="@{/clientes/vista}" class="btn hero-btn">
+                            <i class="bi bi-rocket-takeoff me-2"></i>¡Empezar!
+                        </a>
+                        <div class="hero-social mt-4">
+                            <a href="#"><i class="bi bi-facebook"></i></a>
+                            <a href="#"><i class="bi bi-instagram"></i></a>
+                            <a href="#"><i class="bi bi-twitter"></i></a>
                         </div>
                     </div>
-                    <!-- Middle - Ilustración Retro -->
-                    <div class="col-lg-3 text-center mb-4 mb-lg-0">
-                        <div class="hero-illustration">
-                            <div class="floating-bag">
-                                <i class="bi bi-shop"></i>
-                            </div>
-                            <div class="floating-icons">
-                                <span class="float-icon">☀️</span>
-                                <span class="float-icon">☁️</span>
-                                <span class="float-icon">⭐</span>
-                                <span class="float-icon">🛒</span>
-                            </div>
+                </div>
+
+                <div class="col-lg-3 text-center mb-4 mb-lg-0">
+                    <div class="hero-illustration">
+                        <div class="floating-bag">
+                            <i class="bi bi-shop"></i>
+                        </div>
+                        <div class="floating-icons">
+                            <span class="float-icon">☀️</span>
+                            <span class="float-icon">☁️</span>
+                            <span class="float-icon">⭐</span>
+                            <span class="float-icon">🛒</span>
                         </div>
                     </div>
-                    <!-- Right Side - Cards -->
-                    <div class="col-lg-4">
-                        <div class="row g-3">
-                            <div class="col-6">
-                                <div class="card h-100">
-                                    <div class="card-body text-center p-3">
-                                        <div class="card-icon pink mx-auto" style="width:60px;height:60px;font-size:1.5rem;">
-                                            <i class="bi bi-people-fill"></i>
-                                        </div>
-                                        <h6 class="card-title" style="font-size:0.95rem;">Clientes</h6>
-                                        <p class="card-text" style="font-size:0.8rem;">Gestiona clientes.</p>
-                                        <a th:href="@{/clientes/vista}" class="btn btn-primary btn-sm">
-                                            <i class="bi bi-arrow-right-circle me-1"></i>Ver
-                                        </a>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="row g-3">
+
+                        <div class="col-6" sec:authorize="hasAnyRole('USER','VENDEDOR','ADMIN')">
+                            <div class="card h-100">
+                                <div class="card-body text-center p-3">
+                                    <div class="card-icon pink mx-auto" style="width:60px;height:60px;font-size:1.5rem;">
+                                        <i class="bi bi-people-fill"></i>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="card h-100">
-                                    <div class="card-body text-center p-3">
-                                        <div class="card-icon green mx-auto" style="width:60px;height:60px;font-size:1.5rem;">
-                                            <i class="bi bi-box-seam-fill"></i>
-                                        </div>
-                                        <h6 class="card-title" style="font-size:0.95rem;">Productos</h6>
-                                        <p class="card-text" style="font-size:0.8rem;">Administra catálogo.</p>
-                                        <a th:href="@{/productos/vista}" class="btn btn-success btn-sm">
-                                            <i class="bi bi-arrow-right-circle me-1"></i>Ver
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="card h-100">
-                                    <div class="card-body text-center p-3">
-                                        <div class="card-icon orange mx-auto" style="width:60px;height:60px;font-size:1.5rem;">
-                                            <i class="bi bi-cart-fill"></i>
-                                        </div>
-                                        <h6 class="card-title" style="font-size:0.95rem;">Ventas</h6>
-                                        <p class="card-text" style="font-size:0.8rem;">Controla ventas.</p>
-                                        <a th:href="@{/ventas/vista}" class="btn btn-info btn-sm">
-                                            <i class="bi bi-arrow-right-circle me-1"></i>Ver
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="card h-100">
-                                    <div class="card-body text-center p-3">
-                                        <div class="card-icon yellow mx-auto" style="width:60px;height:60px;font-size:1.5rem;">
-                                            <i class="bi bi-person-workspace"></i>
-                                        </div>
-                                        <h6 class="card-title" style="font-size:0.95rem;">Usuarios</h6>
-                                        <p class="card-text" style="font-size:0.8rem;">Gestiona usuarios.</p>
-                                        <a th:href="@{/usuarios/vista}" class="btn btn-warning btn-sm">
-                                            <i class="bi bi-arrow-right-circle me-1"></i>Ver
-                                        </a>
-                                    </div>
+                                    <h6 class="card-title" style="font-size:0.95rem;">Clientes</h6>
+                                    <p class="card-text" style="font-size:0.8rem;">Gestiona clientes.</p>
+                                    <a th:href="@{/clientes/vista}" class="btn btn-primary btn-sm">
+                                        <i class="bi bi-arrow-right-circle me-1"></i>Ver
+                                    </a>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-6" sec:authorize="hasAnyRole('USER','VENDEDOR','ADMIN')">
+                            <div class="card h-100">
+                                <div class="card-body text-center p-3">
+                                    <div class="card-icon green mx-auto" style="width:60px;height:60px;font-size:1.5rem;">
+                                        <i class="bi bi-box-seam-fill"></i>
+                                    </div>
+                                    <h6 class="card-title" style="font-size:0.95rem;">Productos</h6>
+                                    <p class="card-text" style="font-size:0.8rem;">Administra catálogo.</p>
+                                    <a th:href="@{/productos/vista}" class="btn btn-success btn-sm">
+                                        <i class="bi bi-arrow-right-circle me-1"></i>Ver
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-6" sec:authorize="hasAnyRole('VENDEDOR','ADMIN')">
+                            <div class="card h-100">
+                                <div class="card-body text-center p-3">
+                                    <div class="card-icon orange mx-auto" style="width:60px;height:60px;font-size:1.5rem;">
+                                        <i class="bi bi-cart-fill"></i>
+                                    </div>
+                                    <h6 class="card-title" style="font-size:0.95rem;">Detalle de Ventas</h6>
+                                    <p class="card-text" style="font-size:0.8rem;">Controla las ventas.</p>
+                                    <a th:href="@{/ventas/vista}" class="btn btn-info btn-sm">
+                                        <i class="bi bi-arrow-right-circle me-1"></i>Ver
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-6" sec:authorize="hasRole('ADMIN')">
+                            <div class="card h-100">
+                                <div class="card-body text-center p-3">
+                                    <div class="card-icon yellow mx-auto" style="width:60px;height:60px;font-size:1.5rem;">
+                                        <i class="bi bi-person-workspace"></i>
+                                    </div>
+                                    <h6 class="card-title" style="font-size:0.95rem;">Usuarios</h6>
+                                    <p class="card-text" style="font-size:0.8rem;">Gestiona usuarios.</p>
+                                    <a th:href="@{/usuarios/vista}" class="btn btn-warning btn-sm">
+                                        <i class="bi bi-arrow-right-circle me-1"></i>Ver
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Decorative Section Arcoíris -->
-        <div class="container mb-5">
-            <div class="rainbow-box text-center p-4">
-                <h3>✨ ¡Bienvenido a KinalApp! ✨</h3>
-                <p>Sistema completo para gestionar tu negocio con estilo retro</p>
-            </div>
+    <div class="container mb-5">
+        <div class="rainbow-box text-center p-4">
+            <h3>✨ ¡Bienvenido a KinalApp! ✨</h3>
+            <p>Sistema completo para gestionar tu negocio</p>
         </div>
     </div>
+</div>
 </body>
 </html>
